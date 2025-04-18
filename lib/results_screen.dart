@@ -4,7 +4,12 @@ import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/questions_summary.dart';
 
 class ResultsScreen extends StatelessWidget {
-  ResultsScreen({required this.chosenAnswers, super.key});
+  ResultsScreen({
+    required this.chosenAnswers,
+    required this.restartFunction,
+    super.key,
+  });
+  void Function() restartFunction;
   List<String> chosenAnswers;
   List<Map<String, Object>> getSummaryData() {
     final List<Map<String, Object>> summary = [];
@@ -24,9 +29,9 @@ class ResultsScreen extends StatelessWidget {
     final summaryData = getSummaryData();
     final numOfTotalQuestion = questions.length;
     final numOfCorrectAnswer =
-        summaryData.where((data) {
-          return data['user_answer'] == data['correct_answer'];
-        }).length;
+        summaryData
+            .where((data) => data['user_answer'] == data['correct_answer'])
+            .length;
 
     return SizedBox(
       width: double.infinity,
@@ -34,18 +39,28 @@ class ResultsScreen extends StatelessWidget {
         margin: EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'You answered $numOfCorrectAnswer  question out of $numOfTotalQuestion length questions correctly! ',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 190, 87, 208),
+              ),
             ),
             const SizedBox(height: 30),
             QuestionsSummary(summaryData: summaryData),
             const SizedBox(height: 30),
             TextButton(
-              onPressed: () {},
-              child: Text(
-                'Restart Quiz!',
-                style: TextStyle(color: Colors.white),
+              onPressed: restartFunction,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.refresh, color: Colors.white),
+                  SizedBox(width: 10),
+                  Text('Restart Quiz!', style: TextStyle(color: Colors.white)),
+                ],
               ),
             ),
           ],

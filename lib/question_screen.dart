@@ -44,7 +44,7 @@ class _questionScreen extends State<QuestionScreen> {
             ),
             SizedBox(height: 30),
             // ... makes it individual commma separated instead of a list becasuse iterable<AnswerButton> cannot be assigned to Widget
-            ...currentQuestion.getShuflledAnswers().map((answers) {
+            ...currentQuestion.shuflleAnswers.map((answers) {
               return AnswerButton(
                 answerText: answers,
                 onTop: () {
